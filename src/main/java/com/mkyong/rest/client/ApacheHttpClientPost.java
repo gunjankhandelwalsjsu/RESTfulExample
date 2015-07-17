@@ -16,8 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.sql.*;
 
 import com.mkyong.database.ClentData;
-import com.mkyong.database.ClientDataStore;
-import com.mkyong.database.CustomConnection;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;

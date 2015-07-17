@@ -22,7 +22,7 @@ public class MainProgram {
 
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			
-			HttpPost postRequest = new HttpPost("http://localhost:8080/RESTfulExample/ManageDevice/read");
+			HttpPost postRequest = new HttpPost("http://localhost:8081/Assignment4/ManageDevice/read/3333");
 
 			HttpResponse response = httpClient.execute(postRequest);
 
@@ -35,7 +35,7 @@ public class MainProgram {
 					(response.getEntity().getContent())));
 
 			String output;
-			System.out.println("Output from Server .... \n");
+			System.out.println("Output from client .... \n");
 			while ((output = br.readLine()) != null) {
 
 				System.out.println(output);

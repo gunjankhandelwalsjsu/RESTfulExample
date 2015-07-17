@@ -1,6 +1,7 @@
 package com.mkyong.rest.client;
 
 import java.io.BufferedReader;
+
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,7 +13,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.mkyong.database.CustomConnection;
 import com.mykong.pojo.Product;
 
 public class ApacheHttpClientPut {

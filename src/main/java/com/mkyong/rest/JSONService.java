@@ -10,31 +10,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.mkyong.P8080.Mongod;
 import com.mkyong.database.ClentData;
-import com.mkyong.database.ClientDataStore;
-import com.mkyong.database.CustomConnection;
-import com.mkyong.database.Database;
-import com.mkyong.database.Device;
-import com.mkyong.database.FillDeviceDetails;
-import com.mkyong.database.Sql;
-import com.mkyong.database.SqlDelete;
-import com.mkyong.database.SqlInsert;
-import com.mkyong.database.SqlInsertSeverRegisteration;
-import com.mkyong.database.SqlUpdate;
 import com.mkyong.database.mongo;
 import com.mkyong.database.mongoDelete;
 import com.mkyong.database.mongoInsert;
 import com.mkyong.database.mongoInsertServerRegistration;
 import com.mkyong.database.mongoUpdate;
-import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mykong.pojo.Product;
 
- 
 @Path("/device")
 public class JSONService {
-	String textUri_bootstrap_db = "mongodb://gunjan:khandelwal@ds047802.mongolab.com:47802/bootstrap_db";
+	String textUri_bootstrap_db ="mongodb://gunjan:khandelwal@ds047802.mongolab.com:47802/bootstrap_db";
 	MongoClientURI uri = new MongoClientURI(textUri_bootstrap_db);
 	MongoClient mongoClient = new MongoClient( uri );
 	String textUri_client_db = "mongodb://gunjan:khandelwal@ds047592.mongolab.com:47592/client_db";
@@ -59,7 +48,14 @@ public class JSONService {
 		return mongo.getdata(productId,mongoClient);
 		}
 		
-
+	@GET
+	@Path("/read/{objectId}")
+	@Produces("application/json")
+	public ClentData readResponse(@PathParam("objectId")String objectId) throws Exception {
+		Mongod mongo=new Mongod();
+	
+		return mongo.getdata(objectId,mongoClient2);
+		}
 	 
 		
 	

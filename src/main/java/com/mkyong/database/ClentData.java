@@ -1,17 +1,18 @@
 package com.mkyong.database;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.datatype.Duration;
 
 import com.mykong.pojo.Product;
 
 public class ClentData {
 	String object_id;
-	public String getObject_id() {
-		return object_id;
-	}
-	public void setObject_id(String object_id) {
-		this.object_id = object_id;
-	}
+	String lifetime;
+	String resource_id1;
+	String resource_id2;
+
 	public String getResource_id1() {
 		return resource_id1;
 	}
@@ -24,6 +25,13 @@ public class ClentData {
 	public void setResource_id2(String resource_id2) {
 		this.resource_id2 = resource_id2;
 	}
+	public String getObject_id() {
+		return object_id;
+	}
+	public void setObject_id(String object_id) {
+		this.object_id = object_id;
+	}
+	
 	
 	public String getLifetime() {
 		return lifetime;
@@ -31,9 +39,7 @@ public class ClentData {
 	public void setLifetime(String lifetime) {
 		this.lifetime = lifetime;
 	}
-	String resource_id1;
-	String resource_id2;
-	String lifetime;
+	
 	
 	
 
