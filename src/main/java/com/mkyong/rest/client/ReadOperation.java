@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public class MainProgram {
+public class ReadOperation {
 //8080:client
 //8081: server	
 	

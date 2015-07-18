@@ -12,7 +12,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mykong.pojo.Product;
 
-public class Mongod {
+public class MongoRead {
 	 public ClentData getdata(String product_id,MongoClient mongoClient) {
 		   ClentData product=new ClentData();
 		   Statement stmt = null;

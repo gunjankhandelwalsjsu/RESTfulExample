@@ -10,7 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.mkyong.P8080.Mongod;
+import com.mkyong.P8080.MongoDiscover;
+import com.mkyong.P8080.MongoRead;
 import com.mkyong.database.ClentData;
 import com.mkyong.database.mongo;
 import com.mkyong.database.mongoDelete;
@@ -19,6 +20,7 @@ import com.mkyong.database.mongoInsertServerRegistration;
 import com.mkyong.database.mongoUpdate;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mykong.pojo.DatabaseWithAttributes;
 import com.mykong.pojo.Product;
 
 @Path("/device")
@@ -32,18 +34,17 @@ public class JSONService {
 	String textUri_server_db = "mongodb://gunjan:khandelwal@ds047722.mongolab.com:47722/server_db";
 	MongoClientURI uri3 = new MongoClientURI(textUri_server_db);
 	MongoClient mongoClient3 = new MongoClient( uri3 );
+	String textUri_client_db_attributes = "mongodb://gunjan:khandelwal@ds047632.mongolab.com:47632/client_db_attributes";
+	MongoClientURI uri4 = new MongoClientURI(textUri_client_db_attributes);
+	MongoClient mongoClient4 = new MongoClient( uri4 );
 	@GET
 	@Path("{productId}")
 	@Produces("application/json")
 	public Product bootstrap(@PathParam("productId")String productId) throws Exception {
 		mongo mongo=new mongo();
 		mongoInsert s=new mongoInsert();
-	//	Sql sql=new Sql();
-		//SqlInsert s=new SqlInsert();
-	//	CustomConnection conn =new CustomConnection();
 		Product p=new Product();
-	    p=mongo.getdata(productId,mongoClient);	  
-		
+	    p=mongo.getdata(productId,mongoClient);	  		
         s.insertdata(p,mongoClient2);
 		return mongo.getdata(productId,mongoClient);
 		}
@@ -52,14 +53,21 @@ public class JSONService {
 	@Path("/read/{objectId}")
 	@Produces("application/json")
 	public ClentData readResponse(@PathParam("objectId")String objectId) throws Exception {
-		Mongod mongo=new Mongod();
-	
+		MongoRead mongo=new MongoRead();	
 		return mongo.getdata(objectId,mongoClient2);
 		}
 	 
-		
+	@GET
+	@Path("/discover/{objectId}")
+	@Produces("application/json")
+	public DatabaseWithAttributes discoverResponse(@PathParam("objectId")String objectId) throws Exception {
+		MongoDiscover mongo=new MongoDiscover();	
+		return mongo.getdata(objectId,mongoClient4);
+		}
 	
-
+	
+	
+	
 	@POST
 	@Path("register")
 	@Consumes("application/json")
@@ -90,7 +98,6 @@ public class JSONService {
 	//	CustomConnection conn =new CustomConnection();
 		mongoDelete s=new mongoDelete();
 	    s.deletedata(object_id,mongoClient3);
-
 		return "de-registered";
 	}
 }
