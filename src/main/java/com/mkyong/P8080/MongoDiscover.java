@@ -19,7 +19,7 @@ import com.mykong.pojo.Product;
 import com.mykong.pojo.Resource;
 
 public class MongoDiscover {
-	 public DatabaseWithAttributes getdata(String product_id,MongoClient mongoClient) {
+	 public Attributes getdata(String product_id,MongoClient mongoClient) {
 		 DatabaseWithAttributes product=new DatabaseWithAttributes();
 			DB db = mongoClient.getDB( "client_db_attributes" );
 
@@ -45,15 +45,17 @@ public class MongoDiscover {
                 }
            
            product.setR(resourceList);
-   //        Attributes a= (Attributes) tobj.get("Attributes");
-     //      product.setObject_attributes(a);
+           BasicDBObject attri= (BasicDBObject) tobj.get("Attributes");
+           Attributes a=new Attributes();
+           a.makePojoFromBson( attri );
+           product.setObject_attributes(a);
            product.setLifetime((String) tobj.get("lifetime"));
 
    	   }
 	} finally {
 	   cursor.close();
 	}
-	return product;
+	return product.getObject_attributes();
 }
 }
 

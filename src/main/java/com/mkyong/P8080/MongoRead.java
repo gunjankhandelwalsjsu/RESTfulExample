@@ -2,21 +2,25 @@ package com.mkyong.P8080;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.mkyong.database.ClentData;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mykong.pojo.Product;
+import com.mykong.pojo.Attributes;
+import com.mykong.pojo.DatabaseWithAttributes;
+import com.mykong.pojo.Resource;
 
 public class MongoRead {
-	 public ClentData getdata(String product_id,MongoClient mongoClient) {
-		   ClentData product=new ClentData();
-		   Statement stmt = null;
-			DB db = mongoClient.getDB( "client_db" );
+	 public DatabaseWithAttributes getdata(String product_id,MongoClient mongoClient) {
+		 DatabaseWithAttributes product=new DatabaseWithAttributes();
+			DB db = mongoClient.getDB( "client_db_attributes" );
 
         	BasicDBObject query = new BasicDBObject("object_id", product_id);
         	DBCollection coll = db.getCollection("device");
@@ -27,8 +31,23 @@ public class MongoRead {
 		   DBObject tobj = cursor.next();
            System.out.println(tobj);
            product.setObject_id((String) tobj.get("object_id"));
-           product.setResource_id1((String) tobj.get("resource_id1"));
-           product.setResource_id2((String) tobj.get("resource_id2"));
+           ArrayList<Resource> resourceList = new ArrayList<Resource>(); 
+           BasicDBList list = (BasicDBList)tobj.get("resource_id");
+           System.out.println(list.size());
+
+            for( Iterator< Object > it = list.iterator(); it.hasNext(); )
+                {
+                   BasicDBObject dbo = (BasicDBObject)it.next();
+                   Resource resource = new Resource();
+                   resource.makePojoFromBson( dbo );
+                   resourceList.add(resource);
+                }
+           
+           product.setR(resourceList);
+           BasicDBObject attri= (BasicDBObject) tobj.get("Attributes");
+           Attributes a=new Attributes();
+           a.makePojoFromBson( attri );
+           product.setObject_attributes(a);
            product.setLifetime((String) tobj.get("lifetime"));
 
    	   }

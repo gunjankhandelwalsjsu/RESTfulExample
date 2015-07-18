@@ -20,6 +20,7 @@ import com.mkyong.database.mongoInsertServerRegistration;
 import com.mkyong.database.mongoUpdate;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mykong.pojo.Attributes;
 import com.mykong.pojo.DatabaseWithAttributes;
 import com.mykong.pojo.Product;
 
@@ -52,15 +53,15 @@ public class JSONService {
 	@GET
 	@Path("/read/{objectId}")
 	@Produces("application/json")
-	public ClentData readResponse(@PathParam("objectId")String objectId) throws Exception {
+	public DatabaseWithAttributes readResponse(@PathParam("objectId")String objectId) throws Exception {
 		MongoRead mongo=new MongoRead();	
-		return mongo.getdata(objectId,mongoClient2);
+		return mongo.getdata(objectId,mongoClient4);
 		}
 	 
 	@GET
 	@Path("/discover/{objectId}")
 	@Produces("application/json")
-	public DatabaseWithAttributes discoverResponse(@PathParam("objectId")String objectId) throws Exception {
+	public Attributes discoverResponse(@PathParam("objectId")String objectId) throws Exception {
 		MongoDiscover mongo=new MongoDiscover();	
 		return mongo.getdata(objectId,mongoClient4);
 		}

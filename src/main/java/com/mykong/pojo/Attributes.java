@@ -1,5 +1,7 @@
 package com.mykong.pojo;
 
+import com.mongodb.BasicDBObject;
+
 public class Attributes {
 	String MaximumPeriod;
 	String MinimumPeriod;
@@ -42,6 +44,15 @@ public class Attributes {
 	}
 	public void setCancel(String cancel) {
 		this.Cancel = cancel;
+	}
+	public void makePojoFromBson(BasicDBObject attri) {
+		BasicDBObject b = attri;
+		this.setMaximumPeriod(( String ) b.get("Maximum Period"));	
+    	this.setMinimumPeriod(( String ) b.get("Minimum Period"));		
+    	this.setGreaterThan(( String ) b.get("Greater Than"));	
+    	this.setLessThan(( String ) b.get("Less Than"));		
+    	this.setStep(( String ) b.get("Step"));	
+    	this.setCancel(( String ) b.get("cancel"));		
 	}
 	
 }

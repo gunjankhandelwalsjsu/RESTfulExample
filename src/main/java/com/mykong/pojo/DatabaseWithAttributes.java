@@ -20,6 +20,7 @@ public class DatabaseWithAttributes {
 		return object_attributes;
 	}
 	public void setObject_attributes(Attributes object_attributes) {
+		
 		this.object_attributes = object_attributes;
 	}
 	public String getObject_id() {
@@ -41,7 +42,12 @@ public class DatabaseWithAttributes {
 		this.resources=resourceList;
 	}
 
-	
+	public void makePojoFromBson(BasicDBObject bson) {
+		BasicDBObject b = bson;
+		
+	//	this.setObject_attributes(( String )b.get("Maximum Period"),( String ) b.get("Minimum Period"),( String ) b.get("Greater Than"),( String ) b.get("Less Than"),( String ) b.get("cancel"),( String ) b.get( "Step" ));
+		
+	}
 
 	
 	
