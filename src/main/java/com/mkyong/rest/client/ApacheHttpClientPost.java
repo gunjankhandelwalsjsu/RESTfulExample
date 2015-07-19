@@ -53,7 +53,7 @@ public class ApacheHttpClientPost {
 			      StringEntity input=null;
 				    while (cursor.hasNext()){
 						   DBObject rs = cursor.next();
-		    	 input = new StringEntity("{\"object_id\":"+"\""+rs.get("object_id").toString()+"\",\"resource_id1\":"+"\""+rs.get("resource_id1").toString()+"\",\"resource_id2\":"+"\""+rs.get("resource_id2").toString()+"\",\"lifetime\":"+"\""+rs.get("lifetime").toString()+"\"}");
+		    	 input = new StringEntity("{\"object_id\":"+"\""+rs.get("object_id").toString()+"\",\"resource_id\":"+"\""+rs.get("resource_id").toString()+rs.get("lifetime").toString()+"\"}");
 			     uri1=rs.get("uri").toString();
 				    }
 

@@ -12,6 +12,10 @@ public class DatabaseWithAttributes {
 //	Resource r;
 	ArrayList<Resource> resources ;
 	
+	public void setResources(ArrayList<Resource> resources) {
+		this.resources = resources;
+	}
+
 	public ArrayList<Resource> getResources() {
 		return resources;
 	}

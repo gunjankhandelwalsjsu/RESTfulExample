@@ -11,8 +11,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.mkyong.P8080.MongoDiscover;
+import com.mkyong.P8080.MongoFullUpdateResource;
+import com.mkyong.P8080.MongoPartialUpdateResource;
 import com.mkyong.P8080.MongoRead;
+import com.mkyong.P8080.MongoWriteAttributes;
 import com.mkyong.database.ClentData;
+import com.mkyong.database.NewClentData;
 import com.mkyong.database.mongo;
 import com.mkyong.database.mongoDelete;
 import com.mkyong.database.mongoInsert;
@@ -22,13 +26,17 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mykong.pojo.Attributes;
 import com.mykong.pojo.DatabaseWithAttributes;
+import com.mykong.pojo.NewProduct;
 import com.mykong.pojo.Product;
 
 @Path("/device")
 public class JSONService {
-	String textUri_bootstrap_db ="mongodb://gunjan:khandelwal@ds047802.mongolab.com:47802/bootstrap_db";
-	MongoClientURI uri = new MongoClientURI(textUri_bootstrap_db);
+	String NewtextUri_bootstrap_db ="mongodb://gunjan:khandelwal@ds037837.mongolab.com:37837/newbootstrap_db";
+	MongoClientURI uri = new MongoClientURI(NewtextUri_bootstrap_db);
 	MongoClient mongoClient = new MongoClient( uri );
+	String textUri_bootstrap_db ="mongodb://gunjan:khandelwal@ds047802.mongolab.com:47802/bootstrap_db";
+	MongoClientURI uri1 = new MongoClientURI(textUri_bootstrap_db);
+	MongoClient mongoClient1 = new MongoClient( uri1 );
 	String textUri_client_db = "mongodb://gunjan:khandelwal@ds047592.mongolab.com:47592/client_db";
 	MongoClientURI uri2 = new MongoClientURI(textUri_client_db);
 	MongoClient mongoClient2 = new MongoClient( uri2 );
@@ -41,10 +49,10 @@ public class JSONService {
 	@GET
 	@Path("{productId}")
 	@Produces("application/json")
-	public Product bootstrap(@PathParam("productId")String productId) throws Exception {
+	public NewProduct bootstrap(@PathParam("productId")String productId) throws Exception {
 		mongo mongo=new mongo();
 		mongoInsert s=new mongoInsert();
-		Product p=new Product();
+		NewProduct p=new NewProduct();
 	    p=mongo.getdata(productId,mongoClient);	  		
         s.insertdata(p,mongoClient2);
 		return mongo.getdata(productId,mongoClient);
@@ -73,7 +81,7 @@ public class JSONService {
 	@Path("register")
 	@Consumes("application/json")
 	@Produces("text/plain")
-	public Response registration(ClentData c) throws Exception {
+	public Response registration(NewClentData c) throws Exception {
 	//	SqlInsertSeverRegisteration s=new SqlInsertSeverRegisteration();
 		mongoInsertServerRegistration s=new mongoInsertServerRegistration();
 
@@ -82,6 +90,31 @@ public class JSONService {
 		String result = "Device registered : ";
 		return Response.status(201).entity(result).build();
 		
+	}
+	
+	/**********WRITE UpdateResource*****************/
+	@PUT
+	@Path("/update/{object_id}/{resource_id}")
+	public String PartialUpdateResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
+		MongoPartialUpdateResource s=new MongoPartialUpdateResource();
+	    s.updatedata(resource_id,object_id,mongoClient4);
+		return "updated registration";
+	}
+	
+	@PUT
+	@Path("/FullUpdate/{object_id}/{resource_id}")
+	public String FullUpdateResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
+		MongoFullUpdateResource s=new MongoFullUpdateResource();
+	    s.updatedata(resource_id,object_id,mongoClient4);
+		return "updated registration";
+	}
+	
+	@PUT
+	@Path("/WriteAttributes/{object_id}/{resource_id}")
+	public String WriteAttributesResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
+		MongoWriteAttributes s=new MongoWriteAttributes();
+	    s.updatedata(resource_id,object_id,mongoClient4);
+		return "updated registration";
 	}
 	
 	@PUT

@@ -2,20 +2,25 @@ package com.mkyong.database;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mykong.pojo.NewProduct;
 import com.mykong.pojo.Product;
+import com.mykong.pojo.Resource;
 
 public class mongo {
-	 public Product getdata(String product_id,MongoClient mongoClient) {
-		   Product product=new Product();
+	 public NewProduct getdata(String product_id,MongoClient mongoClient) {
+		   NewProduct product=new NewProduct();
 		   Statement stmt = null;
-			DB db = mongoClient.getDB( "bootstrap_db" );
+			DB db = mongoClient.getDB( "newbootstrap_db" );
 
         	BasicDBObject query = new BasicDBObject("object_id", product_id);
         	DBCollection coll = db.getCollection("device");
@@ -25,10 +30,20 @@ public class mongo {
 	   while(cursor.hasNext()) {
 		   DBObject tobj = cursor.next();
            System.out.println(tobj);
-           product.setObjectId((String) tobj.get("object_id"));
-           product.setResourceId1( (String) tobj.get("resource_id1"));
-           product.setResourceId2((String) tobj.get("resource_id2"));
-    //       product.setUri((String) tobj.get("uri"));
+           product.setObject_id((String) tobj.get("object_id"));
+           ArrayList<ResourceForClient> resourceList = new ArrayList<ResourceForClient>(); 
+           BasicDBList list = (BasicDBList)tobj.get("resource_id");
+
+            for( Iterator< Object > it = list.iterator(); it.hasNext(); )
+                {
+                   BasicDBObject dbo = (BasicDBObject)it.next();
+                   ResourceForClient resource = new ResourceForClient();
+                   resource.makePojoFromBson( dbo );
+                   resourceList.add(resource);
+                }
+           
+           product.setResources(resourceList);
+           product.setUri((String) tobj.get("uri"));
 
 
    	   }
