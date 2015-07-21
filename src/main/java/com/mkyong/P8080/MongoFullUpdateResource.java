@@ -14,9 +14,26 @@ public class MongoFullUpdateResource {
 			BasicDBObject newDocument = new BasicDBObject();
 			newDocument.put("resource_id.$.Rid", "5");
 			
-
+/*
 			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
 					             new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id", "5")));
-	
+			 BasicDBObject query = new BasicDBObject();
+				query.put( "object_id", "3333");
+				
+*/
+			BasicDBObject query = new BasicDBObject();
+			query.append( "object_id", "3333");
+			query.append( "instance_id.0.instance_id", "0");
+
+				BasicDBObject obj = new BasicDBObject();
+				obj.put("Rid", resource_id);
+			//	tenant.put("Tenant_Info", "check");
+			//	tenant.put("Prop_Info", "client");
+
+				BasicDBObject update = new BasicDBObject();
+				update.put("$pull", new BasicDBObject("Rid", obj));
+
+				table.update(query, update,true,true);
+
 }
 }
