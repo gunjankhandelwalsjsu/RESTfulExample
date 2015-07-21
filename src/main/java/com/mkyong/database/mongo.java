@@ -31,6 +31,8 @@ public class mongo {
 		   DBObject tobj = cursor.next();
            System.out.println(tobj);
            product.setObject_id((String) tobj.get("object_id"));
+           product.setInstance_id((String) tobj.get("instance_id"));
+
            ArrayList<ResourceForClient> resourceList = new ArrayList<ResourceForClient>(); 
            BasicDBList list = (BasicDBList)tobj.get("resource_id");
 

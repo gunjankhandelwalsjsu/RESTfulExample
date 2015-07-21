@@ -46,9 +46,16 @@ package com.mkyong.P8080;
 
 		       BasicDBObject update = new BasicDBObject("$set",
 		           new BasicDBObject("stats.$.stat2", value));*/
-
-		     table.update(new BasicDBObject().append("object_id", "3333").append("resource_id.Rid", "1"),
-		                  new BasicDBObject("$set", new BasicDBObject("resource_id.$.Step", "5")));
+/*********Change attributes at instance level
+ *******/
+		    /* table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.Attributes.Step", "12"),
+		                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.Attributes.Step", "5")));
+		     
+		*/
+	//update MinimumPeriod to 5  at resource level    
+	     
+     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
+            new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Minimum Period", "5")));
 
 	}
 	

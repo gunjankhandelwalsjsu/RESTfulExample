@@ -1,17 +1,24 @@
 package com.mykong.pojo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 public class DatabaseWithAttributes {
-	String object_id;
 	String lifetime;
 	Attributes object_attributes;
 //	Resource r;
 	ArrayList<Resource> resources ;
-	
+	public String getInstance_id() {
+		return instance_id;
+	}
+	public void setInstance_id(String instance_id) {
+		this.instance_id = instance_id;
+	}
+	String instance_id;
 	public void setResources(ArrayList<Resource> resources) {
 		this.resources = resources;
 	}
@@ -27,12 +34,7 @@ public class DatabaseWithAttributes {
 		
 		this.object_attributes = object_attributes;
 	}
-	public String getObject_id() {
-		return object_id;
-	}
-	public void setObject_id(String object_id) {
-		this.object_id = object_id;
-	}
+	
 	
 	
 	public String getLifetime() {
@@ -45,13 +47,32 @@ public class DatabaseWithAttributes {
 		// TODO Auto-generated method stub
 		this.resources=resourceList;
 	}
-
 	public void makePojoFromBson(BasicDBObject bson) {
+		// TODO Auto-generated method stub
 		BasicDBObject b = bson;
-		
-	//	this.setObject_attributes(( String )b.get("Maximum Period"),( String ) b.get("Minimum Period"),( String ) b.get("Greater Than"),( String ) b.get("Less Than"),( String ) b.get("cancel"),( String ) b.get( "Step" ));
-		
+		this.setLifetime(( String ) b.get("Rid"));	
+    	this.setInstance_id(( String ) b.get("Name"));
+    	ArrayList<Resource> resourceList = new ArrayList<Resource>(); 
+        BasicDBList list = (BasicDBList)bson.get("resource_id");
+
+         for( Iterator< Object > it = list.iterator(); it.hasNext(); )
+             {
+                BasicDBObject dbo = (BasicDBObject)it.next();
+                Resource resource = new Resource();
+                resource.makePojoFromBson( dbo );
+                resourceList.add(resource);
+             }
+         this.resources=resourceList;
+         BasicDBObject attri= (BasicDBObject) bson.get("Attributes");
+         Attributes a=new Attributes();
+         a.makePojoFromBson( attri );
+         this.object_attributes=a;
+         this.setLifetime((String) bson.get("lifetime"));
+
+         
 	}
+
+	
 
 	
 	

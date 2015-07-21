@@ -19,6 +19,8 @@ public class mongoInsert {
 		DBCollection table = db.getCollection("device");
 		BasicDBObject document = new BasicDBObject();
 		document.put("object_id", product.getObject_id());
+		document.put("instance_id", product.getInstance_id());
+
 		ArrayList<ResourceForClient> resourceList=product.getResources();
 		DBObject dbo;
 

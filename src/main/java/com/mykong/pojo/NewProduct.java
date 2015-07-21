@@ -7,9 +7,15 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 public class NewProduct {
-	String object_id;
 	String lifetime;
 	String uri;
+	public String getInstance_id() {
+		return instance_id;
+	}
+	public void setInstance_id(String instance_id) {
+		this.instance_id = instance_id;
+	}
+	String instance_id;
 	
 	ArrayList<ResourceForClient> resources ;
 	
@@ -25,6 +31,8 @@ public class NewProduct {
 	public void setResources(ArrayList<ResourceForClient> resourceList) {
 		this.resources = resourceList;
 	}
+	
+	String object_id;
 
 	public String getObject_id() {
 		return object_id;
@@ -32,7 +40,6 @@ public class NewProduct {
 	public void setObject_id(String object_id) {
 		this.object_id = object_id;
 	}
-	
 	
 	public String getLifetime() {
 		return lifetime;

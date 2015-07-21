@@ -9,6 +9,14 @@ import com.mykong.pojo.Product;
 
 public class ClentData {
 	String object_id;
+	public String getInstance_id() {
+		return instance_id;
+	}
+	public void setInstance_id(String instance_id) {
+		this.instance_id = instance_id;
+	}
+	String instance_id;
+
 	String lifetime;
 	String resource_id1;
 	String resource_id2;

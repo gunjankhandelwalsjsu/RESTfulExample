@@ -1,5 +1,7 @@
 package com.mkyong.rest;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -8,8 +10,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.mkyong.P8080.MongoCreate;
+import com.mkyong.P8080.MongoDelete;
 import com.mkyong.P8080.MongoDiscover;
 import com.mkyong.P8080.MongoFullUpdateResource;
 import com.mkyong.P8080.MongoPartialUpdateResource;
@@ -26,6 +31,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mykong.pojo.Attributes;
 import com.mykong.pojo.DatabaseWithAttributes;
+import com.mykong.pojo.FinalDatabase;
 import com.mykong.pojo.NewProduct;
 import com.mykong.pojo.Product;
 
@@ -61,7 +67,7 @@ public class JSONService {
 	@GET
 	@Path("/read/{objectId}")
 	@Produces("application/json")
-	public DatabaseWithAttributes readResponse(@PathParam("objectId")String objectId) throws Exception {
+	public FinalDatabase readResponse(@PathParam("objectId")String objectId) throws Exception {
 		MongoRead mongo=new MongoRead();	
 		return mongo.getdata(objectId,mongoClient4);
 		}
@@ -69,7 +75,7 @@ public class JSONService {
 	@GET
 	@Path("/discover/{objectId}")
 	@Produces("application/json")
-	public Attributes discoverResponse(@PathParam("objectId")String objectId) throws Exception {
+	public ArrayList<Attributes> discoverResponse(@PathParam("objectId")String objectId) throws Exception {
 		MongoDiscover mongo=new MongoDiscover();	
 		return mongo.getdata(objectId,mongoClient4);
 		}
@@ -94,7 +100,10 @@ public class JSONService {
 	
 	/**********WRITE UpdateResource*****************/
 	@PUT
+
 	@Path("/update/{object_id}/{resource_id}")
+	@Produces("text/plain")
+
 	public String PartialUpdateResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
 		MongoPartialUpdateResource s=new MongoPartialUpdateResource();
 	    s.updatedata(resource_id,object_id,mongoClient4);
@@ -118,6 +127,14 @@ public class JSONService {
 	}
 	
 	@PUT
+	@Path("/Create/{object_id}/{instance_id}")
+	public String CreateInstance(@PathParam("instance_id") String instance_id,@PathParam("object_id") String object_id) throws Exception {
+		MongoCreate s=new MongoCreate();
+	    s.updatedata(instance_id,object_id,mongoClient4);
+		return "instance Created";
+	}
+	
+	@PUT
 	@Path("/{object_id}/{lifetime}")
 	public String update(@PathParam("lifetime") String lifetime,@PathParam("object_id") String object_id) throws Exception {
 		mongoUpdate s=new mongoUpdate();
@@ -133,5 +150,14 @@ public class JSONService {
 		mongoDelete s=new mongoDelete();
 	    s.deletedata(object_id,mongoClient3);
 		return "de-registered";
+	}
+	
+	@DELETE
+	@Path("/delete/{object_id}/{instance_id}")
+	public String deleteInstance(@PathParam("object_id") String object_id,@PathParam("instance_id") String instance_id) throws Exception {
+	//	CustomConnection conn =new CustomConnection();
+		MongoDelete s=new MongoDelete();
+	    s.deletedata(instance_id,object_id, mongoClient4);
+		return "deleting";
 	}
 }

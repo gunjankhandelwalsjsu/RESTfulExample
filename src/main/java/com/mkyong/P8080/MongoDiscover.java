@@ -15,47 +15,49 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mykong.pojo.Attributes;
 import com.mykong.pojo.DatabaseWithAttributes;
+import com.mykong.pojo.FinalDatabase;
 import com.mykong.pojo.Product;
 import com.mykong.pojo.Resource;
 
 public class MongoDiscover {
-	 public Attributes getdata(String product_id,MongoClient mongoClient) {
-		 DatabaseWithAttributes product=new DatabaseWithAttributes();
+	 public ArrayList<Attributes> getdata(String product_id,MongoClient mongoClient) {
+		    FinalDatabase product=new FinalDatabase();
 			DB db = mongoClient.getDB( "client_db_attributes" );
 
         	BasicDBObject query = new BasicDBObject("object_id", product_id);
         	DBCollection coll = db.getCollection("device");
         	DBCursor cursor = coll.find(query);
+	        ArrayList<DatabaseWithAttributes> d =new ArrayList<DatabaseWithAttributes>();
+	        ArrayList<Attributes> a =new ArrayList<Attributes>();
 
-	try {
-	   while(cursor.hasNext()) {
-		   DBObject tobj = cursor.next();
-           System.out.println(tobj);
-           product.setObject_id((String) tobj.get("object_id"));
-           ArrayList<Resource> resourceList = new ArrayList<Resource>(); 
-           BasicDBList list = (BasicDBList)tobj.get("resource_id");
-           System.out.println(list.size());
-
-            for( Iterator< Object > it = list.iterator(); it.hasNext(); )
-                {
-                   BasicDBObject dbo = (BasicDBObject)it.next();
-                   Resource resource = new Resource();
-                   resource.makePojoFromBson( dbo );
-                   resourceList.add(resource);
-                }
+        	try {
+        		   while(cursor.hasNext()) {
+        			   DBObject tobj = cursor.next();
+        	           System.out.println(tobj);
+        	           product.setObject_id((String) tobj.get("object_id"));
+        	           
+        	           ArrayList<DatabaseWithAttributes> instanceList = new ArrayList<DatabaseWithAttributes>(); 
+        	           BasicDBList list1 = (BasicDBList)tobj.get("instance_id");
+        	           for( Iterator< Object > it = list1.iterator(); it.hasNext(); )
+        	           {
+        	              BasicDBObject dbo = (BasicDBObject)it.next();
+        	              DatabaseWithAttributes instance = new DatabaseWithAttributes();
+        	              instance.makePojoFromBson( dbo );
+        	              instanceList.add(instance);
+        	           }   
            
-           product.setR(resourceList);
-           BasicDBObject attri= (BasicDBObject) tobj.get("Attributes");
-           Attributes a=new Attributes();
-           a.makePojoFromBson( attri );
-           product.setObject_attributes(a);
-           product.setLifetime((String) tobj.get("lifetime"));
-
+        	           product.setDwa(instanceList);
+        	          d=product.getDwa();
+                      for(int i=0;i<d.size();i++){
+                    	  a.add(d.get(i).getObject_attributes());
+                      }
+         
+          
    	   }
 	} finally {
 	   cursor.close();
 	}
-	return product.getObject_attributes();
+	return a;
 }
 }
 
