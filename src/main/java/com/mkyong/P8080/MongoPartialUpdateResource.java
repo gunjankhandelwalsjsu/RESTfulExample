@@ -32,12 +32,12 @@ public class MongoPartialUpdateResource {
 	       DBObject updateObj = new BasicDBObject("resource_id.Rid", listItem);
    
 //
-	     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
+	/*     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
 	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.instance_id", "5")));
 	//update Rid to 5     
-	     
-//	     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
- //                new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Rid", "5")));
+	     */
+     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
+                new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Rid", "5")));
 }
 }
 

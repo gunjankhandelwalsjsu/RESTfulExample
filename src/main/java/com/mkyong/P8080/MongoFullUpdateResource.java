@@ -14,26 +14,25 @@ public class MongoFullUpdateResource {
 			BasicDBObject newDocument = new BasicDBObject();
 			newDocument.put("resource_id.$.Rid", "5");
 			
-/*
 			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
-					             new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id", "5")));
-			 BasicDBObject query = new BasicDBObject();
-				query.put( "object_id", "3333");
-				
-*/
-			BasicDBObject query = new BasicDBObject();
-			query.append( "object_id", "3333");
-			query.append( "instance_id.0.instance_id", "0");
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Rid", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Minimum Period", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Name", "Maximum Voltage")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Maximum Period", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Greater Than", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Less Than", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Step", "5")));
+			 table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", "5"),
+	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.cancel", "False")));
 
-				BasicDBObject obj = new BasicDBObject();
-				obj.put("Rid", resource_id);
-			//	tenant.put("Tenant_Info", "check");
-			//	tenant.put("Prop_Info", "client");
 
-				BasicDBObject update = new BasicDBObject();
-				update.put("$pull", new BasicDBObject("Rid", obj));
-
-				table.update(query, update,true,true);
+			 
 
 }
 }
