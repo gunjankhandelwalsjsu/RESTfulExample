@@ -20,9 +20,9 @@ package com.mkyong.P8080;
 	import com.mykong.pojo.Resource;
 	//changing a particular resource_id(from 0 to 4)
 	public class MongoWriteAttributes {
-		 public void updatedata(String resource_id,String product_id,MongoClient mongoClient) {
+		 public void updatedata(String device,String resource_id,String product_id, MongoClient mongoClient) {
 				DB db = mongoClient.getDB( "client_db_attributes" );
-				DBCollection table = db.getCollection("device");
+				DBCollection table = db.getCollection(device);
 		/*		BasicDBObject newDocument = new BasicDBObject();		
 				newDocument.append("$set", new BasicDBObject().append("resource_id.Rid", "5").append("resource_id.Name", "Maximum Voltage"));
 				BasicDBObject searchQuery = new BasicDBObject().append("resource_id.Rid", resource_id).append("object_id", product_id);		 
@@ -54,8 +54,9 @@ package com.mkyong.P8080;
 		*/
 	//update MinimumPeriod to 5  at resource level    
 	     
-     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
-            new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Minimum Period", "5")));
+     table.update(new BasicDBObject().append("object_id", "3333").append("instances.instance_id", "0").append("instance_id.resource.Resource_id", resource_id),
+            new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource.0.Minimum Period", "5")));
+     
 
 	}
 	

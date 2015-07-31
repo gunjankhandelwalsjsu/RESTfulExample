@@ -50,10 +50,10 @@ public class DatabaseWithAttributes {
 	public void makePojoFromBson(BasicDBObject bson) {
 		// TODO Auto-generated method stub
 		BasicDBObject b = bson;
-		this.setLifetime(( String ) b.get("Rid"));	
+		this.setLifetime(( String ) b.get("Resource_id"));	
     	this.setInstance_id(( String ) b.get("Name"));
     	ArrayList<Resource> resourceList = new ArrayList<Resource>(); 
-        BasicDBList list = (BasicDBList)bson.get("resource_id");
+        BasicDBList list = (BasicDBList)bson.get("resources");
 
          for( Iterator< Object > it = list.iterator(); it.hasNext(); )
              {

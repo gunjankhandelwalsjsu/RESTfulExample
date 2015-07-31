@@ -16,28 +16,29 @@ import com.mongodb.MongoClient;
 
 //changing a particular resource_id(from 0 to 4)
 public class MongoPartialUpdateResource {
-	 public void updatedata(String resource_id,String product_id,MongoClient mongoClient) {
+	 public void updatedata(String device,String instanceId,String resource_id,String product_id,MongoClient mongoClient) {
 			DB db = mongoClient.getDB( "client_db_attributes" );
-			DBCollection table = db.getCollection("device");
+			DBCollection table = db.getCollection(device);
+	        DBObject query = new BasicDBObject("instances.instance_id",instanceId);
 
-	        DBObject query = new BasicDBObject("resource_id.Rid",resource_id);
+	   //     DBObject query = new BasicDBObject("resource.Resource_id",resource_id);
 
 	        BasicDBObject listItem = new BasicDBObject();
 	   //   listItem.append("$set", new BasicDBObject().append("resource_id.Rid", "5"));
-	     listItem.put("Rid", "5");
-	     listItem.put("Name", "Maximum Voltage");
+	        listItem.put("Rid", "5");
+	        listItem.put("Name", "Maximum Voltage");
 	        BasicDBObject update = new BasicDBObject("$set",
 	        	    new BasicDBObject("resource_id", listItem));
 
-	       DBObject updateObj = new BasicDBObject("resource_id.Rid", listItem);
+	       DBObject updateObj = new BasicDBObject("resource.Resource_id", listItem);
    
 //
 	/*     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
 	                  new BasicDBObject("$set", new BasicDBObject("instance_id.$.instance_id", "5")));
 	//update Rid to 5     
 	     */
-     table.update(new BasicDBObject().append("object_id", "3333").append("instance_id.instance_id", "0").append("instance_id.resource_id.Rid", resource_id),
-                new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource_id.0.Rid", "5")));
+     table.update(new BasicDBObject().append("object_id", "3333").append("instances.instance_id", instanceId).append("instance_id.resource.Resource_id", resource_id),
+                new BasicDBObject("$set", new BasicDBObject("instance_id.$.resource.0.Resource_id", "5")));
 }
 }
 

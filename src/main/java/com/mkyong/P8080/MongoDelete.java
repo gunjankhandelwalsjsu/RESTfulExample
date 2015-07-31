@@ -20,9 +20,9 @@ package com.mkyong.P8080;
 	import com.mykong.pojo.Resource;
 	//changing a particular resource_id(from 0 to 4)
 	public class MongoDelete {
-		 public void deletedata(String instance_id,String product_id,MongoClient mongoClient) {
+		 public void deletedata(String device,String instance_id,String product_id,MongoClient mongoClient) {
 				DB db = mongoClient.getDB( "client_db_attributes" );
-				DBCollection table = db.getCollection("device");
+				DBCollection table = db.getCollection(device);
 		
 		      
 /*********Change attributes at instance level

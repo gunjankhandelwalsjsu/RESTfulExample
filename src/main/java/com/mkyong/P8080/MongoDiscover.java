@@ -20,12 +20,12 @@ import com.mykong.pojo.Product;
 import com.mykong.pojo.Resource;
 
 public class MongoDiscover {
-	 public ArrayList<Attributes> getdata(String product_id,MongoClient mongoClient) {
+	 public ArrayList<Attributes> getdata(String device,String product_id, String instanceId, MongoClient mongoClient) {
 		    FinalDatabase product=new FinalDatabase();
 			DB db = mongoClient.getDB( "client_db_attributes" );
 
         	BasicDBObject query = new BasicDBObject("object_id", product_id);
-        	DBCollection coll = db.getCollection("device");
+        	DBCollection coll = db.getCollection(device);
         	DBCursor cursor = coll.find(query);
 	        ArrayList<DatabaseWithAttributes> d =new ArrayList<DatabaseWithAttributes>();
 	        ArrayList<Attributes> a =new ArrayList<Attributes>();
@@ -37,7 +37,7 @@ public class MongoDiscover {
         	           product.setObject_id((String) tobj.get("object_id"));
         	           
         	           ArrayList<DatabaseWithAttributes> instanceList = new ArrayList<DatabaseWithAttributes>(); 
-        	           BasicDBList list1 = (BasicDBList)tobj.get("instance_id");
+        	           BasicDBList list1 = (BasicDBList)tobj.get("instances");
         	           for( Iterator< Object > it = list1.iterator(); it.hasNext(); )
         	           {
         	              BasicDBObject dbo = (BasicDBObject)it.next();
@@ -46,8 +46,8 @@ public class MongoDiscover {
         	              instanceList.add(instance);
         	           }   
            
-        	           product.setDwa(instanceList);
-        	          d=product.getDwa();
+        	           product.setAttributesOfItem(instanceList);
+        	          d=product.getAttributesOfItem();
                       for(int i=0;i<d.size();i++){
                     	  a.add(d.get(i).getObject_attributes());
                       }

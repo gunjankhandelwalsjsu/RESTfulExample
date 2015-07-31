@@ -27,6 +27,7 @@ import com.mkyong.database.mongoDelete;
 import com.mkyong.database.mongoInsert;
 import com.mkyong.database.mongoInsertServerRegistration;
 import com.mkyong.database.mongoUpdate;
+import com.mkyong.rest.client.DeviceName;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mykong.pojo.Attributes;
@@ -34,9 +35,9 @@ import com.mykong.pojo.DatabaseWithAttributes;
 import com.mykong.pojo.FinalDatabase;
 import com.mykong.pojo.NewProduct;
 import com.mykong.pojo.Product;
-
 @Path("/device")
 public class JSONService {
+
 	String NewtextUri_bootstrap_db ="mongodb://gunjan:khandelwal@ds037837.mongolab.com:37837/newbootstrap_db";
 	MongoClientURI uri = new MongoClientURI(NewtextUri_bootstrap_db);
 	MongoClient mongoClient = new MongoClient( uri );
@@ -52,6 +53,7 @@ public class JSONService {
 	String textUri_client_db_attributes = "mongodb://gunjan:khandelwal@ds047632.mongolab.com:47632/client_db_attributes";
 	MongoClientURI uri4 = new MongoClientURI(textUri_client_db_attributes);
 	MongoClient mongoClient4 = new MongoClient( uri4 );
+	
 	@GET
 	@Path("{productId}")
 	@Produces("application/json")
@@ -68,19 +70,53 @@ public class JSONService {
 	@Path("/read/{objectId}")
 	@Produces("application/json")
 	public FinalDatabase readResponse(@PathParam("objectId")String objectId) throws Exception {
+		
 		MongoRead mongo=new MongoRead();	
-		return mongo.getdata(objectId,mongoClient4);
+		String deviceName=DeviceName(objectId);
+		return mongo.getdata(deviceName,objectId,mongoClient4);
 		}
 	 
+	private String DeviceName(String objectId) {
+		// TODO Auto-generated method stub
+		String deviceName = null;
+		if(objectId.equals("3333"))
+		  {
+			 deviceName="Bulb";
+		  }
+
+		  else if(objectId.equals("3539"))
+		  {
+			  deviceName="Thermostat";
+		  }
+		  
+		  else if(objectId.equals("3434"))
+		  {
+			  deviceName="Refrigerator";
+		  }
+		  return deviceName;
+	}
+
 	@GET
-	@Path("/discover/{objectId}")
+	@Path("/discover/{objectId}/{instanceId}")
 	@Produces("application/json")
-	public ArrayList<Attributes> discoverResponse(@PathParam("objectId")String objectId) throws Exception {
+	public ArrayList<Attributes> discoverResponseInstance(@PathParam("objectId")String objectId,@PathParam("instanceId")String instanceId) throws Exception {
+		MongoDiscover mongo=new MongoDiscover();
+		String deviceName=DeviceName(objectId);
+
+		return mongo.getdata(deviceName,objectId,instanceId,mongoClient4);
+		}
+
+	//needs incorporation
+/*	
+	@GET
+	@Path("/discover/{objectId}/{instanceId}/{resourceId}}")
+	@Produces("application/json")
+	public ArrayList<Attributes> discoverResponseResource(@PathParam("objectId")String objectId) throws Exception {
 		MongoDiscover mongo=new MongoDiscover();	
 		return mongo.getdata(objectId,mongoClient4);
 		}
 	
-	
+	*/
 	
 	
 	@POST
@@ -100,13 +136,14 @@ public class JSONService {
 	
 	/**********WRITE UpdateResource*****************/
 	@PUT
-
-	@Path("/update/{object_id}/{resource_id}")
+	@Path("/PartialUpdate/{object_id}/{instanceId}/{resource_id}")
 	@Produces("text/plain")
-
-	public String PartialUpdateResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
+	
+	public String PartialUpdateResource(@PathParam("instanceId") String instanceId,@PathParam("resource_id") String resource_id,@PathParam("object_id") String objectId) throws Exception {
 		MongoPartialUpdateResource s=new MongoPartialUpdateResource();
-	    s.updatedata(resource_id,object_id,mongoClient4);
+		DeviceName d=new DeviceName();
+		String deviceName=DeviceName(objectId);
+	    s.updatedata(deviceName,instanceId,resource_id,objectId,mongoClient4);
 		return "updated registration";
 	}
 	
@@ -114,7 +151,9 @@ public class JSONService {
 	@Path("/FullUpdate/{object_id}/{resource_id}")
 	public String FullUpdateResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
 		MongoFullUpdateResource s=new MongoFullUpdateResource();
-	    s.updatedata(resource_id,object_id,mongoClient4);
+		String deviceName=DeviceName(object_id);
+
+	    s.updatedata(deviceName,resource_id,object_id,mongoClient4);
 		return "updated registration";
 	}
 	
@@ -122,7 +161,9 @@ public class JSONService {
 	@Path("/WriteAttributes/{object_id}/{resource_id}")
 	public String WriteAttributesResource(@PathParam("resource_id") String resource_id,@PathParam("object_id") String object_id) throws Exception {
 		MongoWriteAttributes s=new MongoWriteAttributes();
-	    s.updatedata(resource_id,object_id,mongoClient4);
+		String deviceName=DeviceName(object_id);
+
+	    s.updatedata(deviceName,resource_id,object_id,mongoClient4);
 		return "updated registration";
 	}
 	
@@ -130,7 +171,9 @@ public class JSONService {
 	@Path("/Create/{object_id}/{instance_id}")
 	public String CreateInstance(@PathParam("instance_id") String instance_id,@PathParam("object_id") String object_id) throws Exception {
 		MongoCreate s=new MongoCreate();
-	    s.updatedata(instance_id,object_id,mongoClient4);
+		String deviceName=DeviceName(object_id);
+
+		s.updatedata(deviceName,instance_id,object_id,mongoClient4);
 		return "instance Created";
 	}
 	
@@ -157,7 +200,11 @@ public class JSONService {
 	public String deleteInstance(@PathParam("object_id") String object_id,@PathParam("instance_id") String instance_id) throws Exception {
 	//	CustomConnection conn =new CustomConnection();
 		MongoDelete s=new MongoDelete();
-	    s.deletedata(instance_id,object_id, mongoClient4);
+		String deviceName=DeviceName(object_id);
+
+	    s.deletedata(deviceName,instance_id,object_id, mongoClient4);
 		return "deleting";
 	}
+	
+
 }

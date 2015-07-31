@@ -19,12 +19,13 @@ import com.mykong.pojo.FinalDatabase;
 import com.mykong.pojo.Resource;
 
 public class MongoRead {
-	 public FinalDatabase getdata(String product_id,MongoClient mongoClient) {
+	 public FinalDatabase getdata(String device,String product_id, MongoClient mongoClient) {
 		    FinalDatabase product=new FinalDatabase();
 			DB db = mongoClient.getDB( "client_db_attributes" );
 
         	BasicDBObject query = new BasicDBObject("object_id", product_id);
-        	DBCollection coll = db.getCollection("device");
+        	System.out.println(device);
+        	DBCollection coll = db.getCollection(device);
         	DBCursor cursor = coll.find(query);
 
 	try {
@@ -34,7 +35,7 @@ public class MongoRead {
            product.setObject_id((String) tobj.get("object_id"));
            
            ArrayList<DatabaseWithAttributes> instanceList = new ArrayList<DatabaseWithAttributes>(); 
-           BasicDBList list1 = (BasicDBList)tobj.get("instance_id");
+           BasicDBList list1 = (BasicDBList)tobj.get("instances");
            for( Iterator< Object > it = list1.iterator(); it.hasNext(); )
            {
               BasicDBObject dbo = (BasicDBObject)it.next();
@@ -43,7 +44,7 @@ public class MongoRead {
               instanceList.add(instance);
            }    
            //2
-           product.setDwa(instanceList);
+           product.setAttributesOfItem(instanceList);
           
 
    	   }

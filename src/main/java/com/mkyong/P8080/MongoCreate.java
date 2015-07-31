@@ -20,9 +20,9 @@ package com.mkyong.P8080;
 	import com.mykong.pojo.Resource;
 	//changing a particular resource_id(from 0 to 4)
 	public class MongoCreate {
-		 public void updatedata(String instance_id,String product_id,MongoClient mongoClient) {
+		 public void updatedata(String device,String instance_id,String product_id, MongoClient mongoClient) {
 				DB db = mongoClient.getDB( "client_db_attributes" );
-				DBCollection table = db.getCollection("device");
+				DBCollection table = db.getCollection(device);
 		
 		      
 /*********Change attributes at instance level

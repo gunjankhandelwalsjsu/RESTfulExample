@@ -3,13 +3,13 @@ package com.mykong.pojo;
 import java.util.ArrayList;
 
 public class FinalDatabase {
-	public ArrayList<DatabaseWithAttributes> getDwa() {
-		return dwa;
+	public ArrayList<DatabaseWithAttributes> getAttributesOfItem() {
+		return AttributesOfItem;
 	}
-	public void setDwa(ArrayList<DatabaseWithAttributes> dwa) {
-		this.dwa = dwa;
+	public void setAttributesOfItem(ArrayList<DatabaseWithAttributes> AttributesOfItem) {
+		this.AttributesOfItem = AttributesOfItem;
 	}
-	ArrayList<DatabaseWithAttributes> dwa ;
+	ArrayList<DatabaseWithAttributes> AttributesOfItem ;
 
 	String object_id;
 
